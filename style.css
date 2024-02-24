@@ -1,0 +1,71 @@
+body{
+    background: linear-gradient(to right,#FBAC79, #FB3A5D);;
+}
+
+.firstTitle{
+    font-weight: 100;
+    color: #1A1F2C;
+}
+.step{
+    font-weight: 100;
+    color: #1A1F2C; 
+}
+.screenCreateAccountWeb{
+    width: 947px;
+    height: 540px;
+    border-radius: 12px;
+    border-color: #1A1F2C;
+    border-width: 1px;
+}
+.linkCreateAccount{
+    text-decoration: none;
+    color: #1A1F2C;
+}
+.screenCreateAccountMobile{
+    width: 540px;
+    height: 1096px;
+    border-radius: 12px;
+}
+.screenCreateApplication{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px;
+}
+.screenDataApplication{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px;
+}
+.textImportant{
+    color: red;
+}
+.createRepl{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px;
+}
+.createReplFlask{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px;
+}
+.runFlask{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px;
+}
+.accessRedirectUris{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px
+}
+.siteUrl{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px
+}
+.screenObtainCode{
+    width: 960px;
+    height: 540px;
+    border-radius: 12px
+}

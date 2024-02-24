@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/theme/css/prism.css">
+</head>
+<body>
+    <script src="/theme/js/prism.js"></script>
+    <center><h1 class="firstTitle">Mode d'emploi de L'API Footbar </h1></center>
+    <H2 class="step">Étape 1 : Se connecter ou créer un compte</H2>
+    <p>Pour créer un compte il est préférable de le créer sur le site:
+        <h2>                                                                      </h2>
+        <img src="/image/screenCreercomptesite.png" alt="Capture d'écran du site pour créer un compte Footbar" class="screenCreateAccountWeb">
+        <p>Voici le site en question :</p>
+        <a href="https://developers.footbar.com/register/?next=%2Fapps%2Fcreate%2" class="linkCreateAccount">Créer un compte FootBar !</a>
+        
+    </p>
+    <p>Vous pouvez aussi créer un compte sur mobile:</p>
+    <img src="/image/screenCreerAplicationMobile.jpg" alt=" Capture d'écran de l'application FootBar" class="screenCreateAccountMobile">
+    <h2 class="step">Étape 2 créer une application </h2>
+    <img src="/image/screenCreerAplication.png" alt="" class="screenCreateApplication">
+    <p>Voici le site en question :</p>
+    <a href="https://developers.footbar.com/apps/list/" class="linkCreateAccount">Créer une Application pour l'API de FootBar !</a>
+    <p>Pour pouvoir faire le lien avec l'API il faut créer une application.</p>
+    <H2 class="step">Les données nécessaires pour créer une application</H2>
+    <img src="/image/screenDataApplication.png" alt="" class="screenDataApplication">
+    <p>Pour pouvoir créer une Application il faut indiquer le nom de l'Application une description.</p>
+    </n>
+    <p>Il faut absolument gardé le 'Client Id' et le 'Client Secret'.</p>
+    </n>
+    <p class="textImportant">Attention lors de la création de l'Application il faut bien gardée le Client Secret car après la création de l'Application il seras impossibles de le récupérer!</p>
+    <p>Après cela il faut mettre un 'Redirect Uris'.Pour créer un 'Redirect Uris' il faut aller sur <a href="https://replit.com/">Replit</a>,se créer un compte.</p>
+    <p>Il faut créer un repl.</p>
+    <img src="/image/createRepl.png" alt="" class="createRepl">
+    <p>Puis il faut écrire dans la barre de recherche 'Flask' et selectioner Flask tout court avec une icône noir et créer le repl Flask.</p>
+    <img src="/image/createReplFlask.png" alt="" class="createReplFlask">
+    <p>Vous aller arriver sur cette page.Et Cliquer sur run tous a droite en vert de la page.</p>
+    <img src="/image/runFlask.png" alt="" class="runFlask">
+    <p>Cliquer sur le logo qui ressemble a un logo de lien.Cela vas rediriger vers un site.L'url de ce site est le 'Redirect Uris'.</p>
+    <img src="/image/accesToRedirectUris.png" alt="" class="accessRedirectUris">
+    <p>Ci dessous un exemple de du site que vous devez avoir ainsi que l'Url souligné en rouge a copier dans le formulaire de création de d'Application:</p>
+    <img src="/image/siteUrlRedirectUris.png" alt="" class="siteUrl">
+    <p class="textImportant">Attention veuillez a garder votre 'Redirect Uris'.</p>
+    <h2 class="step">Création de divers code pour l'obtention de l'acces token</h2>
+    <p>Affin de pouvoir créer l'acces token il faut créer un code verifier et un code.</n>Pour pouvoir créer ces deux codes il faut lancer un certains porgrammes python:</p>
+    <pre>
+        <code class="language-python">
+        import random
+        import string
+        import base64
+        import hashlib
+        
+        code_verifier = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(random.randint(43, 128)))
+        code_verifier = base64.urlsafe_b64encode(code_verifier.encode('utf-8'))
+        
+        code_challenge = hashlib.sha256(code_verifier).digest()
+        code_challenge = base64.urlsafe_b64encode(code_challenge).decode('utf-8').replace('=', '')
+        url = 'https://api.footbar.com/oauth/authorize/?response_type=code&code_challenge='+  code_challenge  +'&code_challenge_method=S256&client_id=nycKZERUTlpoiqK4KYNLoheVsBh4qzLAcO1Yy4Vd&redirect_uri=https://9f3a1d2e-c02c-4e3d-bc9e-c377393b6e44-00-14y7mg1yb3h00.riker.replit.dev/'
+        print(url)
+        print("            ")
+        print(code_verifier)
+        </code>
+    </pre>
+    <p>Si le code ne marche pas alors c'est peut être que vous avez  installée pas les librairie déclaré au début du code.Pour les obtenir il faut écrire dans un invite de commande :pip install + le nom de la librairie.</p>
+    <p>Après avoir lancé ce code vous aller obtenir deux données: un Url et le code  verifier.</p>
+    <p class="textImportant">Attention gardée bien précieusement le code verifier</p>
+    <p>Vous aller copier l'Url dans la barre de recherche et arriver sur cette page: </p>
+    <img src="/image/pageAutorizeCode.png" alt="" class="screenObtainCode">ù
+    <p>Vous aller apuyer sur 'Autorize' et cela vas vous rediriger sur cette page:</p>
+    <img src="/image/screenObtainCode.png" alt="" class="screenObtainCode">
+    <p>Sur cette page il y a un code souligné en rouge dans l'Url grâce a ce code et aux code verifier vous aller pouvoir créer un requete. </p>
+    <p>Pour créer un token il faut d'abord installer la librairie requests pour python.Pour l'installer il faut taper dans un invite de commande pip install requests.</p>
+    <p>Voici le code en question:</p>
+    <pre>
+        <code class="language-python">
+            # -*- coding: utf-8 -*-
+            # coding: utf-8
+            import requests
+            
+            
+            r = requests.post('https://api.footbar.com/oauth/token/', 
+                              headers={"Cache-Control": "no-cache" ,
+                                       "Content-Type": "application/x-www-form-urlencoded" },
+                                       data={"client_id":"Mettre votre client id juste ici",
+                                              "client_secret":"Mettre votre client secret juste ici" , 
+                                              "code": "Mettre le code juste ici" , 
+                                              "code_verifier":b'NjFGSjMwTzE1Uks3RUdaSFoyR0s5RVNMNjlBRENHQjBFNExCUDFVVE40T1JEQjAwV1hSNFQyWUVOUTZGRlpFVldMNEVSTUNBNkNVWk84WlUzUlg2WjYySFgyNTRRQkFIU1pMTzI5VE5HVjlCRUYwQkZRQjRLWg==' ,#Mettre le code verifier juste ici
+                                              "grant_type":"authorization_code" , "scope":"read"})
+            print(r.text)
+        </code>
+    </pre>
+    <p>Il faut juste mettre les client id, client secret, code verfier et le code obtenu au bons endroit et lancer le code.</p>
+    <p>Lorsque le code marche dans la console il y auras sous 'format json' le acces token et votre id.</p>
+    <h2 class="step">Création de la requete</h2>
+    <p>Pour créer une requete pour obtenir les detail sur le profil il faut lancé ce programme:</p>
+    <pre>
+        <code class="language-python">
+import requests
+
+# URL de l'API Footbar
+url = 'https://api.footbar.com/v1/session/list/'
+
+# Paramètres de la requête, par exemple, en filtrant par ID
+params = {'id': 'Mettre votre ID juste ici'}
+acces_token = "Mettre votre acces token juste ici"
+# En-têtes avec l'access token
+headers = {'Authorization': f'Bearer {acces_token}'}
+
+# Effectuer la requête
+response = requests.get(url, params=params, headers=headers)
+
+# Traiter la réponse de l'API
+print(response.json())
+        </code>
+    </pre>
+    <p>Commme vous pouvez le voir pour créer un requete il faut plusieurs donées.En effet il faut l'acces token, l'id mais il faut aussi un Url.</p>
+    <p>Il y a plusieurs types de requete:une requete pour obtenir des informations sur le profil(id,nom,prénom, poids etc...),une requete pour obtenir les données recoltés par le capteur(type de match,distance parcourue,nombre de passe etc...).</p>
+    <p>Il y a aussi les requete pour obtenir plus d'informations sur le profil</p>
+    <p>Pour diferencier ces requete il faut juste changer l'url ainsi que id.</p>
+    <p>Par exemple pour obtenir des informations sur le profil il faut mettre cette url:'https://api.footbar.com/v1/profile/detail/' et ajouter user dans la variable params:</p>
+    <pre>
+        <code class="language-python">
+import requests
+
+# URL de l'API Footbar
+url = 'https://api.footbar.com/v1/profile/detail/'
+
+# Paramètres de la requête, par exemple, en filtrant par ID
+params = {'user_id': 'Mettre votre ID juste ici'}
+acces_token = "Mettre votre acces token juste ici"
+# En-têtes avec l'access token
+headers = {'Authorization': f'Bearer {acces_token}'}
+
+# Effectuer la requête
+response = requests.get(url, params=params, headers=headers)
+
+# Traiter la réponse de l'API
+print(response.json())
+        </code>
+    </pre>
+    <p>Donc le code pour obtenir des données recoltes par le capteur seras différents:</p>
+    <pre>
+        <code class="language-python">
+import requests
+
+# URL de l'API Footbar
+url = 'https://api.footbar.com/v1/session/detail/'
+
+# Paramètres de la requête, par exemple, en filtrant par ID
+params = {'id': 'Mettre votre ID juste ici'}
+acces_token = "IBzwZDw4R4vpyuW05xoCNgRmdTPUE0"
+# En-têtes avec l'access token
+headers = {'Authorization': f'Bearer {acces_token}'}
+
+# Effectuer la requête
+response = requests.get(url, params=params, headers=headers)
+
+# Traiter la réponse de l'API
+print(response.json())
+
+        </code>
+    </pre>
+</body>
+</html>
